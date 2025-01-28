@@ -1,6 +1,6 @@
-[![GitHub CI](https://github.com/CommanderieCondat/cerfasso_CICD/actions/workflows/test_build_release.yml/badge.svg)](https://github.com/CommanderieCondat/cerfasso_CICD/actions/workflows/test_build_release.yml)
+[![GitHub CI](https://github.com/CommanderieCondat/cerfasso/actions/workflows/test_build_release.yml/badge.svg)](https://github.com/CommanderieCondat/cerfasso/actions/workflows/test_build_release.yml)
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-310/)
-[![Release](https://img.shields.io/badge/release-v0.1-blue.svg)](https://github.com/CommanderieCondat/cerfasso_CICD/releases/latest)
+[![Release](https://img.shields.io/badge/release-v0.1-blue.svg)](https://github.com/CommanderieCondat/cerfasso/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # Cerfasso: Application de génération automatique de CERFA 2041-RD
 
@@ -13,7 +13,7 @@ Cerfasso est une application Python basée sur l'interface Tkinter, conçue pour
 ### Installation de l'application
 
 1. **Téléchargez le fichier d'installation**
-   - Téléchargez le fichier d'installation [`cerfasso-installer.exe`](https://github.com/CommanderieCondat/cerfasso_CICD/releases/download/v0.1/cerfasso-installer.exe) en cliquant sur le lien ou bien en vous rendant sur la page des [releases](https://github.com/CommanderieCondat/cerfasso_CICD/releases) du dépôt.
+   - Téléchargez le fichier d'installation [`cerfasso-installer.exe`](https://github.com/CommanderieCondat/cerfasso/releases/download/v0.1/cerfasso-installer.exe) en cliquant sur le lien ou bien en vous rendant sur la page des [releases](https://github.com/CommanderieCondat/cerfasso/releases) du dépôt.
 
 2. **Lancez l'installateur**
    - Double-cliquez sur `cerfasso-installer.exe`.
@@ -69,7 +69,7 @@ Le fichier Excel doit contenir deux onglets nommés **"asso"** et **"dons"**.
 
 1. Clonez ce dépôt :
    ```bash
-   git clone https://github.com/CommanderieCondat/cerfator2.git
+   git clone https://github.com/CommanderieCondat/cerfasso.git
    cd cerfator2
    ```
 
