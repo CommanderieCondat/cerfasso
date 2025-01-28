@@ -1,0 +1,113 @@
+name: Test Build Release
+
+on:
+  push:
+    tags:
+      - "v*"   # Trigger only on tags that start with "v" (e.g., v1.0, v2.3)
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+      
+      - name: Run tests
+        id: test
+        run: |
+          pytest --junitxml=results.xml
+      
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          pip install update pip
+          pip install pyinstaller
+    
+      - name: Run pyinstaller
+        run: |
+          pyinstaller --windowed --add-data="assets/2041-rd_4298.pdf:assets/" src/cerfasso.py
+          mv dist/cerfasso/cerfasso dist/cerfasso/cerfasso.exe
+          cp assets/logo.ico dist/cerfasso/
+          cp LICENSE.TXT dist/cerfasso/
+          cp cerfasso.iss dist/cerfasso
+          ls dist/cerfasso
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: archive-dist
+          path: dist
+
+  build-installer:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Download production artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: archive-dist
+
+      - name: What's in there?
+        run: |
+          ls -R
+        shell: bash
+
+      - name: Build installer
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with: 
+          path: cerfasso/cerfasso.iss
+      
+      - name: Where am I?
+        run: |
+          ls -R
+        shell: bash
+
+      - name: Installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-artifact
+          path: ./cerfasso/Output/cerfasso-installer.exe
+
+  upload-release:
+    needs: build-installer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download installer artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: installer-artifact
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "cerfasso-installer.exe"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}  # github.ref_name Use the tag name
+          releaseName: "cerfasso ${{ github.ref_name }}" # github.ref_name
+          body: |
+            This release contains the latest version of the Cerfasso installer.
+            Download and run the `cerfasso-installer.exe` file to install the application.
+          draft: false
+          prerelease: false

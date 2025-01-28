@@ -1,0 +1,11 @@
+.venv
+build
+*.spec
+*.ifp
+__pycache__
+post
+.~lock.*
+.pytest_cache
+dist
+.draft
+Output
